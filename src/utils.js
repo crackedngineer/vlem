@@ -43,6 +43,29 @@ const ensureNetworkExists = async (networkName) => {
     }
 };
 
+async function imageAvailable(imageName) {
+    try {
+        await docker.getImage(imageName).inspect();
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+async function pullImage(imageName, spinner) {
+    return new Promise((resolve, reject) => {
+        docker.pull(imageName, (err, stream) => {
+            if (err) {
+                spinner.fail('Error pulling image');
+                return reject(err);
+            }
+            docker.modem.followProgress(stream, (err, res) => err ? reject(err) : resolve(res), (event) => {
+                spinner.text = `Pulling image... ${event.status}`;
+            });
+        });
+    });
+}
+
 const runDockerContainer = async (
     containerName,
     platform,
@@ -66,6 +89,14 @@ const runDockerContainer = async (
         } catch (err) {
             // This error means the container does not exist, so no removal needed
             spinner.text = "No active container found. Proceeding with creation...";
+        }
+
+        // Check if image is available locally, otherwise pull it
+        spinner.text = `Checking for image ${imageName} locally...`;
+        const imageExists = await imageAvailable(imageName);
+        if (!imageExists) {
+            spinner.text = `Image ${imageName} not found locally. Pulling from Docker Hub...`;
+            await pullImage(imageName, spinner);
         }
 
         spinner.text = "Creating and starting the container";
