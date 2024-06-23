@@ -1,8 +1,8 @@
-import fs from 'fs';
+import fs from "fs";
 import readline from "readline";
 
-import inquirer from 'inquirer';
-import chalk from 'chalk';
+import ora from "ora";
+import chalk from "chalk";
 import Docker from "dockerode";
 const docker = new Docker();
 
@@ -50,21 +50,25 @@ const runDockerContainer = async (
     restartPolicy,
     hostPort,
     containerPort,
-    imageName,
+    imageName
 ) => {
+    const spinner = ora("Starting Docker operations").start();
+
     try {
-        // Remove existing cont dainer if it exists
+        // Remove existing container if it exists
         let existingContainer = await docker.getContainer(containerName);
         try {
             await existingContainer.inspect(); // Check if container actually exists
-            console.log(chalk.yellow(`\nFound existing container ${containerName}, stopping and removing...`));
+            spinner.text = "Found existing container, stopping and removing...";
             await existingContainer.stop();
             await existingContainer.remove({ force: true });
+            spinner.succeed("Existing container removed");
         } catch (err) {
             // This error means the container does not exist, so no removal needed
-            console.log(chalk.yellow(`\nNo active container named ${containerName} found. Proceeding with creation...`));
+            spinner.text = "No active container found. Proceeding with creation...";
         }
 
+        spinner.text = "Creating and starting the container";
         // Create and start the container
         const container = await docker.createContainer({
             Image: imageName,
@@ -84,9 +88,12 @@ const runDockerContainer = async (
             },
         });
         await container.start();
-        console.log(chalk.green(`Container ${containerName} is deployed and running on port ${hostPort}. \n`));
+        spinner.succeed(
+            `Container ${containerName} is deployed and running on port ${hostPort}.`
+        );
     } catch (error) {
-        console.error(chalk.red("Error running Docker container:"), error);
+        spinner.fail("Error running Docker container");
+        console.error(chalk.red("Error:"), error);
     }
 };
 
@@ -95,7 +102,7 @@ const fetchLab = async (slug) => {
     try {
         const data = fs.readFileSync(filePath, "utf8");
         const labs = JSON.parse(data);
-        return labs.find(item => item.slug === slug)
+        return labs.find((item) => item.slug === slug);
     } catch (err) {
         console.error("Error reading or parsing the file:", err);
     }

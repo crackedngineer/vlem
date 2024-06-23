@@ -94,7 +94,8 @@ async function configureContainer(labObj) {
   ];
 
   const answers = await inquirer.prompt(questions);
-
+  console.log("")
+  
   return {
     containerName: answers.containerName,
     imageName: answers.imageName,
@@ -103,6 +104,7 @@ async function configureContainer(labObj) {
     restartPolicy: answers.restartPolicy
   };
 }
+
 // Initialize and run the Docker container
 async function initializeLab(labConfig, labObj) {
   await ensureNetworkExists(labObj.default.network);
