@@ -5,7 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "xyz": "./src/index.js --no-warnings"
+    "start": "./src/index.js --no-warnings"
+  },
+  "bin": {
+    "hlb": "./src/index.js"
   },
   "repository": {
     "type": "git",

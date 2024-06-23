@@ -122,7 +122,7 @@ async function initializeLab(labConfig, labObj) {
 
 // Main function
 program
-  .name('hlb-cli')
+  .name('hlb')
   .description('CLI tool for for setting up the Local Penetration testing Environment')
   .version(config.version);
 
