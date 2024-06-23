@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import config from '../package.json' assert { type: 'json' };
 
 import chalk from 'chalk';
