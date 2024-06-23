@@ -13,7 +13,7 @@
     "command": "hlb-cli add bwapp",
     "created_at": "",
     "default": {
-      "container_name": "hackerlab-bwapp",
+      "container_name": "hlb-bwapp",
       "default_platform": "linux/amd64",
       "port": 4001,
       "container_port": 80,

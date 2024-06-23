@@ -97,14 +97,38 @@ const runDockerContainer = async (
     }
 };
 
-const fetchLab = async (slug) => {
+const fetchLabs = async (slug) => {
     const filePath = "labs.json";
     try {
         const data = fs.readFileSync(filePath, "utf8");
         const labs = JSON.parse(data);
-        return labs.find((item) => item.slug === slug);
+        return labs
     } catch (err) {
         console.error("Error reading or parsing the file:", err);
+    }
+};
+
+const listContainers = async (suffix) => {
+    try {
+        const containers = await docker.listContainers({ all: true });
+        const hlbContainers = containers.filter(container => container.Names.some(name => name.startsWith(suffix)));
+
+        if (hlbContainers.length === 0) {
+            console.log(chalk.yellow('No containers found starting with "hlb-"'));
+            return;
+        }
+
+        console.log(chalk.green('Lab Environments:\n'));
+        hlbContainers.forEach(container => {
+            console.log(chalk.blue(`Container Name: ${container.Names.join(', ').replace(/^\//, '')}`)); // Removes leading slash
+            // console.log(chalk.magenta(`Container ID: ${container.Id}`));
+            console.log(chalk.cyan(`Image: ${container.Image}`));
+            console.log(chalk.cyan(`Status: ${container.Status}`));
+            console.log(chalk.cyan(`State: ${container.State}`)); // Running, Paused, etc.
+            console.log(chalk.gray(`\n--------------------------------------------------`));
+        });
+    } catch (error) {
+        console.error(chalk.red(`Error fetching containers: ${error.message}`));
     }
 };
 
@@ -114,5 +138,6 @@ export {
     checkDockerInstalled,
     ensureNetworkExists,
     runDockerContainer,
-    fetchLab,
+    fetchLabs,
+    listContainers,
 };

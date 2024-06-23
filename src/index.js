@@ -10,7 +10,8 @@ import {
   checkDockerInstalled,
   ensureNetworkExists,
   runDockerContainer,
-  fetchLab,
+  fetchLabs,
+  listContainers
 } from "./utils.js"
 
 // Print the header
@@ -95,7 +96,7 @@ async function configureContainer(labObj) {
 
   const answers = await inquirer.prompt(questions);
   console.log("")
-  
+
   return {
     containerName: answers.containerName,
     imageName: answers.imageName,
@@ -130,7 +131,11 @@ program.command("add")
   .argument('<labName>', 'Name of the lab to fetch and manage')
   .action(async (labName) => {
     try {
-      const labObj = await fetchLab(labName);
+      const labs = await fetchLabs(labName);
+      const labObj = labs.find((item) => item.slug === labName);
+      if (!labObj) {
+        throw Error(`Cannot find a lab environment named ${labName}`)
+      }
       const githubLink = "https://github.com/yourusername/bwapp-container";
 
       clearConsole();
@@ -144,8 +149,16 @@ program.command("add")
 
       rl.close();
     } catch (error) {
-      console.error(error.toString());
+      console.error(chalk.redBright(error.message));
+      process.exit(0)
     }
   });
+
+program.command("labs").action(
+  async() => {
+    await listContainers('/hlb-')
+    process.exit(0)
+  }
+)
 
 program.parse(process.argv);
