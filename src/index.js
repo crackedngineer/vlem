@@ -142,6 +142,19 @@ program.command("add")
       printHeader(githubLink);
       printLabInfo(labObj);
 
+      // Confirm if the user wants to proceed
+      const answer = await inquirer.prompt([{
+        type: 'confirm',
+        name: 'proceed',
+        message: 'Do you want to proceed with setting up this lab?',
+        default: false
+      }]);
+
+      if (!answer.proceed) {
+        console.log(chalk.yellow('Setup canceled by user.'));
+        return;
+      }
+
       await checkDockerInstalled();
 
       const labConfig = await configureContainer(labObj);
@@ -155,7 +168,7 @@ program.command("add")
   });
 
 program.command("labs").action(
-  async() => {
+  async () => {
     await listContainers('/hlb-')
     process.exit(0)
   }
