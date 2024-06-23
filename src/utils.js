@@ -4,6 +4,7 @@ import readline from "readline";
 import ora from "ora";
 import chalk from "chalk";
 import Docker from "dockerode";
+import axios from "axios";
 const docker = new Docker();
 
 const rl = readline.createInterface({
@@ -128,14 +129,15 @@ const runDockerContainer = async (
     }
 };
 
-const fetchLabs = async (slug) => {
-    const filePath = "labs.json";
+const fetchLabs = async () => {
+    const url = "https://raw.githubusercontent.com/Hacker-Lab-Pro/hackerlab-scripts/main/labs.json";
     try {
-        const data = fs.readFileSync(filePath, "utf8");
-        const labs = JSON.parse(data);
-        return labs
+        const response = await axios.get(url);
+        const labs = response.data;
+        return labs;
     } catch (err) {
-        console.error("Error reading or parsing the file:", err);
+        console.error("Error fetching the data:", err);
+        return [];
     }
 };
 

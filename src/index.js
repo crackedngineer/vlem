@@ -132,7 +132,7 @@ program.command("add")
   .argument('<labName>', 'Name of the lab to fetch and manage')
   .action(async (labName) => {
     try {
-      const labs = await fetchLabs(labName);
+      const labs = await fetchLabs();
       const labObj = labs.find((item) => item.slug === labName);
       if (!labObj) {
         throw Error(`Cannot find a lab environment named ${labName}`)
