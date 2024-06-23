@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "bWAPP - buggy web application",
+    "slug": "bwapp",
+    "description": "Deploy the bwapp container for penetration testing. This setup includes interactive configurations for tailored security testing.",
+    "overview": "",
+    "logo": "",
+    "tags": [],
+    "author": null,
+    "image": "raesene/bwapp",
+    "difficulty": 4,
+    "command": "hlb-cli add bwapp",
+    "created_at": "",
+    "default": {
+      "container_name": "hackerlab-bwapp",
+      "default_platform": "linux/amd64",
+      "port": 4001,
+      "container_port": 80,
+      "network": "hlb-network"
+    }
+  }
+]
