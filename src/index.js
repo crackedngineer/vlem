@@ -111,7 +111,7 @@ async function configureContainer(labObj) {
 async function initializeLab(labConfig, labObj) {
   await ensureNetworkExists(labObj.default.network);
   await runDockerContainer(
-    labConfig.containerName,
+    !containerName.startsWith("hlb-") && `hlb-${labConfig.containerName}`,
     labConfig.platform,
     labObj.default.network,
     labConfig.restartPolicy,
@@ -135,7 +135,7 @@ program.command("add")
       const labs = await fetchLabs();
       const labObj = labs.find((item) => item.slug === labName);
       if (!labObj) {
-        throw Error(`Cannot find a lab environment named ${labName}`)
+        throw new Error(`Cannot find a lab environment named ${labName}`)
       }
       const githubLink = "https://github.com/yourusername/bwapp-container";
 

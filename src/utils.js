@@ -39,7 +39,7 @@ const ensureNetworkExists = async (networkName) => {
             await docker.createNetwork({ Name: networkName });
         }
     } catch (error) {
-        console.error(chalk.red("Failed to create network:"), error);
+        console.log(chalk.red("Failed to create network:"), error.message);
     }
 };
 
@@ -124,7 +124,7 @@ const runDockerContainer = async (
         );
     } catch (error) {
         spinner.fail("Error running Docker container");
-        console.error(chalk.red("Error:"), error);
+        console.log(chalk.red("Error:"), error.message);
     }
 };
 
@@ -135,7 +135,7 @@ const fetchLabs = async () => {
         const labs = response.data;
         return labs;
     } catch (err) {
-        console.error("Error fetching the data:", err);
+        console.log(chalk.red("Error fetching the data:"), err.message);
         return [];
     }
 };
@@ -160,7 +160,7 @@ const listContainers = async (suffix) => {
             console.log(chalk.gray(`\n--------------------------------------------------`));
         });
     } catch (error) {
-        console.error(chalk.red(`Error fetching containers: ${error.message}`));
+        console.log(chalk.red(`Error fetching containers: ${error.message}`));
     }
 };
 

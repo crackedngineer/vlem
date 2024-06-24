@@ -13,7 +13,7 @@
     "command": "hlb-cli add bwapp",
     "created_at": "",
     "default": {
-      "container_name": "bwapp",
+      "container_name": "hlb-bwapp",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
@@ -34,7 +34,7 @@
     "command": "hlb-cli add dvwa",
     "created_at": "",
     "default": {
-      "container_name": "dvwa",
+      "container_name": "hlb-dvwa",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
@@ -56,7 +56,7 @@
     "command": "hlb-cli add securityninjas",
     "created_at": "",
     "default": {
-      "container_name": "securityninjas",
+      "container_name": "hlb-securityninjas",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
@@ -78,7 +78,7 @@
     "command": "hlb-cli add juiceshop",
     "created_at": "",
     "default": {
-      "container_name": "juiceshop",
+      "container_name": "hlb-juiceshop",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 3000,
@@ -100,7 +100,7 @@
     "command": "hlb-cli add webgoat7",
     "created_at": "",
     "default": {
-      "container_name": "webgoat7",
+      "container_name": "hlb-webgoat7",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 8080,
@@ -122,7 +122,7 @@
     "command": "hlb-cli add webgoat8",
     "created_at": "",
     "default": {
-      "container_name": "webgoat8",
+      "container_name": "hlb-webgoat8",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 8080,
@@ -144,7 +144,7 @@
     "command": "hlb-cli add webgoat81",
     "created_at": "",
     "default": {
-      "container_name": "webgoat81",
+      "container_name": "hlb-webgoat81",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 8080,
@@ -166,7 +166,7 @@
     "command": "hlb-cli add mutillidae",
     "created_at": "",
     "default": {
-      "container_name": "mutillidae",
+      "container_name": "hlb-mutillidae",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
@@ -188,7 +188,7 @@
     "command": "hlb-cli add securitysheperd",
     "created_at": "",
     "default": {
-      "container_name": "securitysheperd",
+      "container_name": "hlb-securitysheperd",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
@@ -210,7 +210,7 @@
     "command": "hlb-cli add vulnerablewordpress",
     "created_at": "",
     "default": {
-      "container_name": "vulnerablewordpress",
+      "container_name": "hlb-vulnerablewordpress",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 3306,
@@ -232,7 +232,7 @@
     "command": "hlb-cli add altoro",
     "created_at": "",
     "default": {
-      "container_name": "altoro",
+      "container_name": "hlb-altoro",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 8080,
@@ -254,7 +254,7 @@
     "command": "hlb-cli add vulnerable-graphql-api",
     "created_at": "",
     "default": {
-      "container_name": "vulnerable-graphql-api",
+      "container_name": "hlb-vulnerable-graphql-api",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 3000,
@@ -276,7 +276,7 @@
     "command": "hlb-cli add zap",
     "created_at": "",
     "default": {
-      "container_name": "zap",
+      "container_name": "hlb-zap",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 3000,
@@ -298,7 +298,7 @@
     "command": "hlb-cli add shellshock",
     "created_at": "",
     "default": {
-      "container_name": "shellshock",
+      "container_name": "hlb-shellshock",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
@@ -320,7 +320,7 @@
     "command": "hlb-cli add heartbleed",
     "created_at": "",
     "default": {
-      "container_name": "heartbleed",
+      "container_name": "hlb-heartbleed",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 443,
@@ -342,7 +342,7 @@
     "command": "hlb add hackazon",
     "created_at": "",
     "default": {
-      "container_name": "hackazon",
+      "container_name": "hlb-heartbleed",
       "default_platform": "linux/amd64",
       "port": 4000,
       "container_port": 80,
