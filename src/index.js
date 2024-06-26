@@ -111,7 +111,7 @@ async function configureContainer(labObj) {
 async function initializeLab(labConfig, labObj) {
   await ensureNetworkExists(labObj.default.network);
   await runDockerContainer(
-    !containerName.startsWith("hlb-") && `hlb-${labConfig.containerName}`,
+    labConfig.containerName.startsWith("hlb-") ? labConfig.containerName : `hlb-${labConfig.containerName}`,
     labConfig.platform,
     labObj.default.network,
     labConfig.restartPolicy,
