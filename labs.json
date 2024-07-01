@@ -15,8 +15,12 @@
     "default": {
       "container_name": "hlb-bwapp",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network"
     }
   },
@@ -36,8 +40,12 @@
     "default": {
       "container_name": "hlb-dvwa",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -58,8 +66,12 @@
     "default": {
       "container_name": "hlb-securityninjas",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -80,8 +92,12 @@
     "default": {
       "container_name": "hlb-juiceshop",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 3000,
+      "ports": [
+        {
+          "internal": 3000,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -102,8 +118,12 @@
     "default": {
       "container_name": "hlb-webgoat7",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 8080,
+      "ports": [
+        {
+          "internal": 8080,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -124,8 +144,12 @@
     "default": {
       "container_name": "hlb-webgoat8",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 8080,
+      "ports": [
+        {
+          "internal": 8080,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -146,8 +170,12 @@
     "default": {
       "container_name": "hlb-webgoat81",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 8080,
+      "ports": [
+        {
+          "internal": 8080,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -168,8 +196,12 @@
     "default": {
       "container_name": "hlb-mutillidae",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -190,8 +222,12 @@
     "default": {
       "container_name": "hlb-securitysheperd",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -212,8 +248,12 @@
     "default": {
       "container_name": "hlb-vulnerablewordpress",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 3306,
+      "ports": [
+        {
+          "internal": 3306,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -234,8 +274,12 @@
     "default": {
       "container_name": "hlb-altoro",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 8080,
+      "ports": [
+        {
+          "internal": 8080,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -256,8 +300,12 @@
     "default": {
       "container_name": "hlb-vulnerable-graphql-api",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 3000,
+      "ports": [
+        {
+          "internal": 3000,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -278,8 +326,12 @@
     "default": {
       "container_name": "hlb-zap",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 3000,
+      "ports": [
+        {
+          "internal": 3000,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -300,8 +352,12 @@
     "default": {
       "container_name": "hlb-shellshock",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -322,8 +378,12 @@
     "default": {
       "container_name": "hlb-heartbleed",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 443,
+      "ports": [
+        {
+          "internal": 443,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }
@@ -344,8 +404,12 @@
     "default": {
       "container_name": "hlb-heartbleed",
       "default_platform": "linux/amd64",
-      "port": 4000,
-      "container_port": 80,
+      "ports": [
+        {
+          "internal": 80,
+          "type": "application"
+        }
+      ],
       "network": "hlb-network",
       "restart_policy": "unless-stopped"
     }

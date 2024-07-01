@@ -8,6 +8,7 @@ import { program } from 'commander';
 import {
   rl,
   clearConsole,
+  bindPorts,
   checkDockerInstalled,
   ensureNetworkExists,
   runDockerContainer,
@@ -81,12 +82,6 @@ async function configureContainer(labObj) {
       default: labObj.default.default_platform // Default value from labObj
     },
     {
-      type: 'input',
-      name: 'hostPort',
-      message: "Enter host port",
-      default: labObj.default.port // Default value from labObj
-    },
-    {
       type: 'list', // Using 'list' for selection
       name: 'restartPolicy',
       message: chalk.greenBright("Choose a restart policy for the Docker container"),
@@ -96,14 +91,17 @@ async function configureContainer(labObj) {
   ];
 
   const answers = await inquirer.prompt(questions);
-  console.log("")
+
+  // Configure Port bindings
+  const { portBinding, applicationPort } = await bindPorts(labObj);
 
   return {
     containerName: answers.containerName,
     imageName: answers.imageName,
     platform: answers.platform,
-    hostPort: answers.hostPort,
-    restartPolicy: answers.restartPolicy
+    restartPolicy: answers.restartPolicy,
+    portBinding: portBinding,
+    applicationPort: applicationPort,
   };
 }
 
@@ -115,9 +113,9 @@ async function initializeLab(labConfig, labObj) {
     labConfig.platform,
     labObj.default.network,
     labConfig.restartPolicy,
-    labConfig.hostPort,
-    labObj.default.container_port,
-    labConfig.imageName
+    labConfig.portBinding,
+    labConfig.imageName,
+    labConfig.applicationPort,
   );
 }
 

@@ -11,6 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "runtimeVersion": "18.18.0",
             "args": [
                 "add",
                 "bwapp"
