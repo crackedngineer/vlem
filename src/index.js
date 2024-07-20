@@ -13,7 +13,8 @@ import {
   ensureNetworkExists,
   runDockerContainer,
   fetchLabs,
-  listContainers
+  listContainers,
+  getDockerDaemonPlatform
 } from "./utils.js"
 
 // Print the header
@@ -79,7 +80,7 @@ async function configureContainer(labObj) {
       type: 'input',
       name: 'platform',
       message: "Enter platform",
-      default: labObj.default.default_platform // Default value from labObj
+      default: await getDockerDaemonPlatform() // Default value from labObj
     },
     {
       type: 'list', // Using 'list' for selection

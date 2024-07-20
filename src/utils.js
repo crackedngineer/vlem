@@ -172,11 +172,11 @@ const runDockerContainer = async (
             return acc;
         }, {});
 
-
         const container = await docker.createContainer({
             Image: imageName,
             name: containerName,
             Platform: platform,
+            // Env: Object.entries(environmentVariables).map(([key, value]) => `${key}=${value}`),
             NetworkingConfig: {
                 EndpointsConfig: {
                     [network]: {},
@@ -197,6 +197,20 @@ const runDockerContainer = async (
         console.log(chalk.red("Error:"), error.message);
     }
 };
+
+
+const getDockerDaemonPlatform = async () => {
+    try {
+        const info = await docker.info();
+        const platform = info.OSType;
+        console.log(`Docker daemon platform: ${platform}`);
+        return platform;
+    } catch (error) {
+        console.error('Failed to get Docker platform information:', error);
+        throw error;
+    }
+};
+
 
 const fetchLabs = async () => {
     const url =
@@ -252,4 +266,5 @@ export {
     runDockerContainer,
     fetchLabs,
     listContainers,
+    getDockerDaemonPlatform
 };
