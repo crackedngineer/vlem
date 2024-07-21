@@ -14,14 +14,16 @@
     "created_at": "",
     "default": {
       "container_name": "hlb-bwapp",
-      "default_platform": "linux/amd64",
       "ports": [
         {
           "internal": 80,
           "type": "application"
         }
       ],
-      "network": "hlb-network"
+      "network": "hlb-network",
+      "environment_variables": {
+        "testing": true
+      }
     }
   },
   {
@@ -269,7 +271,6 @@
     "author": null,
     "image": "eystsen/altoro",
 
-    
     "difficulty": 5,
     "command": "hlb-cli add altoro",
     "created_at": "",
@@ -405,7 +406,6 @@
     "created_at": "",
     "default": {
       "container_name": "hlb-heartbleed",
-      "default_platform": "linux/amd64",
       "ports": [
         {
           "internal": 80,

@@ -11,11 +11,14 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "runtimeVersion": "18.18.0",
+            "runtimeVersion": "18.20.4",
             "args": [
                 "add",
                 "bwapp"
             ],
+            "env": {
+                "HLB_DEBUG": "true"
+            },
             "program": "${workspaceFolder}/src/index.js",
             "console": "integratedTerminal"
         }
