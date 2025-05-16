@@ -1,67 +1,37 @@
 import fs from "fs";
-import path from "path";
-
 import net from "net";
 import readline from "readline";
 
-import ora from "ora";
+import ora, { Ora } from "ora";
 import chalk from "chalk";
-import Docker from "dockerode";
+import Docker, { ContainerInfo } from "dockerode";
 import axios from "axios";
 
-// Constants
-import { CONSTANTS } from "./constants.js";
+import { DEFAULT_PORT, PORT_TYPE } from "./constants";
+import { LabDetailsType, LabObject, PortBinding, EnvVars } from "./types";
+import { determineExternalPort } from "./helpers";
 
 const docker = new Docker();
 
-const rl = readline.createInterface({
+export const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-const clearConsole = () => {
-  console.clear();
-};
-
-const checkPortAvailability = (port) => {
-  return new Promise((resolve, reject) => {
-    const server = net
-      .createServer()
-      .once("error", (err) => {
-        if (err.code === "EADDRINUSE") {
-          resolve(false); // Port is in use
-        } else {
-          reject(err); // Other errors
-        }
-      })
-      .once("listening", () => {
-        server.close(() => resolve(true)); // Port is available
-      })
-      .listen(port);
-  });
-};
-
-// Function to determine and assign the external port
-async function determineExternalPort(port, defaultPort) {
-  let externalPort =
-    port.type === CONSTANTS.PORT_TYPE.APPLICATION ? defaultPort : port.internal;
-  while (!(await checkPortAvailability(externalPort))) {
-    externalPort++;
-  }
-  return externalPort;
-}
-
 // Function to bind ports
-async function bindPorts(labObj) {
-  const portBinding = {};
-  const defaultPort = CONSTANTS.DEFAULT_PORT;
-  let applicationPort;
+async function bindPorts(labObj: LabObject): Promise<{
+  portBinding: PortBinding;
+  applicationPort: number | undefined;
+}> {
+  const portBinding: PortBinding = {};
+  const defaultPort = DEFAULT_PORT;
+  let applicationPort: number | undefined;
 
   for (const port of labObj.default.ports) {
     const externalPort = await determineExternalPort(port, defaultPort);
     portBinding[externalPort] = port.internal;
 
-    if (!applicationPort && port.type === CONSTANTS.PORT_TYPE.APPLICATION) {
+    if (!applicationPort && port.type === PORT_TYPE.APPLICATION) {
       applicationPort = externalPort;
     }
   }
@@ -69,7 +39,7 @@ async function bindPorts(labObj) {
   return { portBinding, applicationPort };
 }
 
-const checkDockerInstalled = async () => {
+export const checkDockerInstalled = async (): Promise<void> => {
   try {
     await docker.ping();
   } catch (error) {
@@ -82,7 +52,9 @@ const checkDockerInstalled = async () => {
   }
 };
 
-const ensureNetworkExists = async (networkName) => {
+export const ensureNetworkExists = async (
+  networkName: string
+): Promise<void> => {
   try {
     const networks = await docker.listNetworks();
     const networkExists = networks.some(
@@ -92,30 +64,30 @@ const ensureNetworkExists = async (networkName) => {
       console.log(chalk.blue(`Creating network: `) + chalk.cyan(networkName));
       await docker.createNetwork({ Name: networkName });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log(chalk.red("Failed to create network:"), error.message);
   }
 };
 
-async function imageAvailable(imageName) {
+export async function imageAvailable(imageName: string): Promise<boolean> {
   try {
     await docker.getImage(imageName).inspect();
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }
 
-async function pullImage(imageName, spinner) {
+async function pullImage(imageName: string, spinner: Ora): Promise<void> {
   return new Promise((resolve, reject) => {
-    docker.pull(imageName, (err, stream) => {
+    docker.pull(imageName, (err: any, stream: any) => {
       if (err) {
         spinner.fail("Error pulling image");
         return reject(err);
       }
       docker.modem.followProgress(
         stream,
-        (err, res) => (err ? reject(err) : resolve(res)),
+        (err: any, res: any) => (err ? reject(err) : resolve(res)),
         (event) => {
           spinner.text = `Pulling image... ${event.status}`;
         }
@@ -124,22 +96,29 @@ async function pullImage(imageName, spinner) {
   });
 }
 
-const runDockerContainer = async (
+interface RunDockerContType {
+  containerName: string;
+  network: string;
+  restartPolicy: string;
+  imageName: string;
+  environmentVariables: EnvVars;
+  // applicationPort: number | undefined,
+  // boundPorts: PortBinding,
+}
+
+export const runDockerContainer = async ({
   containerName,
   network,
   restartPolicy,
-  boundPorts,
   imageName,
-  applicationPort,
-  environmentVariables
-) => {
+  environmentVariables,
+}: RunDockerContType): Promise<void> => {
   const spinner = ora("Starting Docker operations").start();
 
   try {
-    // Remove existing container if it exists
     const existingContainer = docker.getContainer(containerName);
     try {
-      const containerInfo = await existingContainer.inspect(); // Check if container actually exists
+      const containerInfo = await existingContainer.inspect();
       if (containerInfo.State.Running) {
         spinner.text = "Found existing container, stopping and removing...";
         await existingContainer.stop();
@@ -150,16 +129,14 @@ const runDockerContainer = async (
         await existingContainer.remove({ force: true });
         spinner.succeed("Existing container removed");
       }
-    } catch (err) {
+    } catch (err: any) {
       if (err.statusCode === 404) {
-        // This error means the container does not exist, so no removal needed
         spinner.text = "No active container found. Proceeding with creation...";
       } else {
         throw err;
       }
     }
 
-    // Check if image is available locally, otherwise pull it
     spinner.text = `Checking for image ${imageName} locally...`;
     const imageExists = await imageAvailable(imageName);
     if (!imageExists) {
@@ -167,15 +144,14 @@ const runDockerContainer = async (
       await pullImage(imageName, spinner);
     }
 
-    // Create and start the container
     spinner.text = "Creating and starting the container";
-    const portBindings = Object.entries(boundPorts).reduce(
-      (acc, [hostPort, containerPort]) => {
-        acc[`${containerPort}/tcp`] = [{ HostPort: `${hostPort}` }];
-        return acc;
-      },
-      {}
-    );
+    // const portBindings = Object.entries(boundPorts).reduce(
+    //   (acc, [hostPort, containerPort]) => {
+    //     acc[`${containerPort}/tcp`] = [{ HostPort: `${hostPort}` }];
+    //     return acc;
+    //   },
+    //   {} as Record<string, Array<{ HostPort: string }>>
+    // );
 
     const container = await docker.createContainer({
       Image: imageName,
@@ -190,45 +166,43 @@ const runDockerContainer = async (
       },
       HostConfig: {
         NetworkMode: network,
-        PortBindings: portBindings,
+        // PortBindings: portBindings,
         RestartPolicy: { Name: restartPolicy },
       },
     });
+
     await container.start();
-    spinner.succeed(
-      `Container ${containerName} is deployed and running on port ${applicationPort}.`
-    );
-  } catch (error) {
+    // spinner.succeed(
+    //   `Container ${containerName} is deployed and running on port ${applicationPort}.`
+    // );
+  } catch (error: any) {
     spinner.fail("Error running Docker container");
     console.log(chalk.red("Error:"), error.message);
   }
 };
 
-const fetchLabs = async () => {
+export const fetchLabs = async (): Promise<any[]> => {
   if (process.env.HLB_DEBUG === "true") {
     const filePath = "labs.json";
     const jsonData = fs.readFileSync(filePath, "utf8");
-
-    const data = JSON.parse(jsonData);
-    return data;
+    return JSON.parse(jsonData);
   } else {
     const url =
       "https://raw.githubusercontent.com/Hacker-Lab-Pro/hackerlab-scripts/main/labs.json";
     try {
       const response = await axios.get(url);
-      const labs = response.data;
-      return labs;
-    } catch (err) {
+      return response.data;
+    } catch (err: any) {
       console.log(chalk.red("Error fetching the data:"), err.message);
       return [];
     }
   }
 };
 
-const listContainers = async (suffix) => {
+export const listContainers = async (suffix: string): Promise<void> => {
   try {
     const containers = await docker.listContainers({ all: true });
-    const hlbContainers = containers.filter((container) =>
+    const hlbContainers = containers.filter((container: ContainerInfo) =>
       container.Names.some((name) => name.startsWith(suffix))
     );
 
@@ -243,27 +217,27 @@ const listContainers = async (suffix) => {
         chalk.blue(
           `Container Name: ${container.Names.join(", ").replace(/^\//, "")}`
         )
-      ); // Removes leading slash
-      // console.log(chalk.magenta(`Container ID: ${container.Id}`));
+      );
       console.log(chalk.cyan(`Image: ${container.Image}`));
       console.log(chalk.cyan(`Status: ${container.Status}`));
-      console.log(chalk.cyan(`State: ${container.State}`)); // Running, Paused, etc.
+      console.log(chalk.cyan(`State: ${container.State}`));
       console.log(
         chalk.gray(`\n--------------------------------------------------`)
       );
     });
-  } catch (error) {
+  } catch (error: any) {
     console.log(chalk.red(`Error fetching containers: ${error.message}`));
   }
 };
 
-export {
-  rl,
-  clearConsole,
-  bindPorts,
-  checkDockerInstalled,
-  ensureNetworkExists,
-  runDockerContainer,
-  fetchLabs,
-  listContainers
-};
+export async function createLab(details: LabDetailsType) {
+  await ensureNetworkExists(details.network);
+  await runDockerContainer({
+    containerName: details.name,
+    network: details.network,
+    restartPolicy: details.restartPolicy,
+    imageName: details.imageName,
+    environmentVariables: details.environmentVariables,
+  });
+  rl.close();
+}
