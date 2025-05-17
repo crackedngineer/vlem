@@ -29,17 +29,15 @@ dependencies = [
     "rich>=14.0.0,<15.0.0",
 ]
 
+[tool.hatch.build.targets.wheel]
+packages = ["vlem"]
+
 [project.scripts]
 vlem = "vlem.__main__:app"
 
 [tool.black]
 line-length = 88
-target-version = [
-    'py39',
-    'py310',
-    'py311',
-    'py312',
-] # Aligned with requires-python
+target-version = ['py39', 'py310', 'py311', 'py312']
 exclude = '''
 /(
     \.git
@@ -59,8 +57,6 @@ include_trailing_comma = true
 force_grid_wrap = 0
 combine_as_imports = true
 
-# Removed [tool.pre-commit] - pre-commit configuration typically goes in .pre-commit-config.yaml
-
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -70,3 +66,5 @@ pytest = "^8.3.5"
 flake8 = "^7.2.0"
 black = "^25.1.0"
 prettier = "^0.0.7"
+virtualenv = "^20.31.2"
+pre-commit = "^4.2.0"
