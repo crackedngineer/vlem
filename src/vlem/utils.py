@@ -58,7 +58,7 @@ def list_containers(client: DockerClient) -> list[Container]:
         A list of Docker container objects that have the specified label.
     """
     return client.containers.list(
-        all=True, filters={"label": f"id={CONTAINER_IDENTIFIER}"}
+        all=True, filters={"label": f"source={CONTAINER_IDENTIFIER}"}
     )
 
 
