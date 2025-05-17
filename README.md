@@ -1,2 +1,6 @@
-# hackerlab-scripts
-Scripts for setting up the Local Penetration testing Environment
+# Vulnerable Lab Environment Manager (vLEM)
+
+## install vlem package locally
+```bash
+pip install -e .
+```

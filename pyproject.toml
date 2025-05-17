@@ -1,0 +1,22 @@
+[project]
+name = "vlem"
+version = "0.1.0"
+description = "Vulnerable Lab Environment Manager (vLEM)"
+authors = [
+    {name = "Subhomoy Roy Choudhury",email = "subhomoyrchoudhury@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer[all] (>=0.15.4,<0.16.0)",
+    "docker (>=7.1.0,<8.0.0)",
+    "rich (>=14.0.0,<15.0.0)"
+]
+
+[project.scripts]
+vlem = "vlem.__main__:app"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

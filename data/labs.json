@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "name": "bWAPP - buggy web application",
-    "slug": "bwapp",
+    "title": "bWAPP - buggy web application",
+    "name": "bwapp",
     "description": "Deploy the bwapp container for penetration testing. This setup includes interactive configurations for tailored security testing.",
     "overview": "",
     "logo": "",
@@ -10,17 +10,14 @@
     "author": null,
     "image": "raesene/bwapp",
     "difficulty": 4,
-    "command": "hlb-cli add bwapp",
     "created_at": "",
-    "default": {
-      "container_name": "hlb-bwapp",
+    "config": {
       "ports": [
         {
           "internal": 80,
           "type": "application"
         }
       ],
-      "network": "hlb-network",
       "environment_variables": {
         "testing": true
       }
@@ -28,8 +25,8 @@
   },
   {
     "id": 2,
-    "name": "DVWA - Damn Vulnerable Web Application",
-    "slug": "dvwa",
+    "title": "DVWA - Damn Vulnerable Web Application",
+    "name": "dvwa",
     "description": "Deploy the DVWA container for penetration testing. This setup is a perfect environment for those new to web application security.",
     "overview": "Damn Vulnerable Web App (DVWA) is a PHP/MySQL web application that is damn vulnerable",
     "logo": "http://localhost:1000/home/assets/icons/dvwa.png",
@@ -54,8 +51,8 @@
   },
   {
     "id": 3,
-    "name": "OpenDNS Security Ninjas",
-    "slug": "securityninjas",
+    "title": "OpenDNS Security Ninjas",
+    "name": "securityninjas",
     "description": "Deploy the Security Ninjas container for advanced penetration testing. Great for intermediates looking to expand their skills.",
     "overview": "Security Ninjas provides a hands-on approach to understanding common security flaws.",
     "logo": "http://localhost:1000/home/assets/icons/ninja.png",
@@ -80,8 +77,8 @@
   },
   {
     "id": 4,
-    "name": "OWASP Juice Shop",
-    "slug": "juiceshop",
+    "title": "OWASP Juice Shop",
+    "name": "juiceshop",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web app for security training.",
     "logo": "http://localhost:1000/home/assets/icons/juiceshop.png",
@@ -106,8 +103,8 @@
   },
   {
     "id": 5,
-    "name": "OWASP WebGoat 7.1",
-    "slug": "webgoat7",
+    "title": "OWASP WebGoat 7.1",
+    "name": "webgoat7",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -132,8 +129,8 @@
   },
   {
     "id": 6,
-    "name": "OWASP WebGoat 8.0",
-    "slug": "webgoat8",
+    "title": "OWASP WebGoat 8.0",
+    "name": "webgoat8",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -158,8 +155,8 @@
   },
   {
     "id": 7,
-    "name": "OWASP WebGoat 8.1",
-    "slug": "webgoat81",
+    "title": "OWASP WebGoat 8.1",
+    "name": "webgoat81",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -184,8 +181,8 @@
   },
   {
     "id": 8,
-    "name": "Mutillidae II",
-    "slug": "mutillidae",
+    "title": "Mutillidae II",
+    "name": "mutillidae",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -210,8 +207,8 @@
   },
   {
     "id": 9,
-    "name": "OWASP Security Shepard",
-    "slug": "securitysheperd",
+    "title": "OWASP Security Shepard",
+    "name": "securitysheperd",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -236,8 +233,8 @@
   },
   {
     "id": 10,
-    "name": "WPScan Vulnerable Wordpress",
-    "slug": "vulnerablewordpress",
+    "title": "WPScan Vulnerable Wordpress",
+    "name": "vulnerablewordpress",
     "description": "WordPress Security Scanner",
     "overview": "",
     "logo": null,
@@ -262,8 +259,8 @@
   },
   {
     "id": 11,
-    "name": "Altoro Mutual",
-    "slug": "altoro",
+    "title": "Altoro Mutual",
+    "name": "altoro",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -289,8 +286,8 @@
   },
   {
     "id": 12,
-    "name": "Vulnerable GraphQL API",
-    "slug": "vulnerable-graphql-api",
+    "title": "Vulnerable GraphQL API",
+    "name": "vulnerable-graphql-api",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -315,8 +312,8 @@
   },
   {
     "id": 13,
-    "name": "OWASP ZAP",
-    "slug": "zap",
+    "title": "OWASP ZAP",
+    "name": "zap",
     "description": "Deploy the OWASP Zap container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "",
     "logo": null,
@@ -341,8 +338,8 @@
   },
   {
     "id": 14,
-    "name": "Vulnerability as a service: Shellshock",
-    "slug": "shellshock",
+    "title": "Vulnerability as a service: Shellshock",
+    "name": "shellshock",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
     "logo": null,
@@ -367,8 +364,8 @@
   },
   {
     "id": 15,
-    "name": "Vulnerability as a service: Heartbleed",
-    "slug": "heartbleed",
+    "title": "Vulnerability as a service: Heartbleed",
+    "name": "heartbleed",
     "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
     "overview": "",
     "logo": null,
@@ -393,8 +390,8 @@
   },
   {
     "id": 16,
-    "name": "Hackazon",
-    "slug": "hackazon",
+    "title": "Hackazon",
+    "name": "hackazon",
     "description": "Watermarked Hackazon",
     "overview": "",
     "logo": null,
