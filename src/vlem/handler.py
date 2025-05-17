@@ -1,21 +1,22 @@
-from typing import Optional, List
-from docker.models.containers import Container
+from typing import List, Optional
+
 from docker.errors import APIError
+from docker.models.containers import Container
 from rich.console import Console
 
+from vlem.constants import LAB_NETWORK
 from vlem.docker_client import get_docker_client
 from vlem.utils import (
-    list_containers,
-    fetch_lab_environment,
-    fetch_container,
-    image_available,
-    pull_image,
     create_container,
-    fetch_network,
     create_network,
+    fetch_container,
+    fetch_lab_environment,
+    fetch_network,
     format_ports,
+    image_available,
+    list_containers,
+    pull_image,
 )
-from vlem.constants import LAB_NETWORK
 
 console = Console()
 client = get_docker_client()
@@ -26,7 +27,25 @@ def add_handler(
 ):
     """
     Handles the lifecycle of a lab container.
-    Stops and removes an existing container if found, pulls image if needed, and starts a new container.
+
+    Stops and removes an existing container if found, pulls the Docker image
+    if it's not available locally, creates a Docker network if it doesn't exist,
+    and then creates and starts a new container based on the provided
+    lab configuration.
+
+    Args:
+        lab_name (str): The name of the lab environment to deploy. This is
+            used to fetch lab details (like image name) from a configuration source.
+        name (Optional[str]): An optional custom name for the container. If not
+            provided, the name from the lab configuration will be used.
+        ports (List[str]): A list of port mappings to expose for the container,
+            in the format 'host_port:container_port'.
+        restart_policy (str, optional): The restart policy for the container
+            (e.g., 'no', 'on-failure', 'always'). Defaults to 'no'.
+
+    Raises:
+        docker.errors.APIError: If there is an error interacting with the Docker API.
+        Exception: For unexpected errors during the process.
     """
     try:
         lab_details = fetch_lab_environment(name=lab_name)
@@ -47,7 +66,8 @@ def add_handler(
                 console.log(f"[green]Removed container '{container_name}'[/green]")
             else:
                 console.log(
-                    f"[blue]No existing container found. Proceeding to create one...[/blue]"
+                    "[blue]No existing container found. "
+                    "Proceeding to create one...[/blue]"
                 )
 
             # Format Ports
@@ -88,8 +108,9 @@ def add_handler(
             console.log(
                 f"[green]Container '{container_name}' is deployed and running.[/green]"
             )
+            message = f"Lab '{lab_details['name']}' started successfully!"
             console.print(
-                f"[bold green]Lab '{lab_details["name"]}' started successfully![/bold green] "
+                f"[bold green]{message}[/bold green] "
                 f"(Container ID: {container.short_id})"
             )
 
@@ -106,7 +127,7 @@ def list_handler() -> None:
     Args:
         client: The Docker client object.
     """
-    containers: List[Container] = client.containers.list(filters={"label": "vlem.id"})
+    containers: List[Container] = list_containers(client)
 
     if not containers:
         console.print("[yellow]No lab environments found[/yellow]")
