@@ -1,0 +1,33 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # Trigger only on version tags like v1.0.0
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Configure Poetry
+        run: |
+          poetry config pypi-token.pypi ${{ secrets.POETRY_PYPI_TOKEN }}
+
+      - name: Build the package
+        run: poetry build
+
+      - name: Publish to PyPI
+        run: poetry publish
