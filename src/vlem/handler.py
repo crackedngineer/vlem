@@ -4,6 +4,7 @@ from docker.errors import APIError
 from docker.models.containers import Container
 from rich.console import Console
 
+from vlem.config import log_file_path
 from vlem.constants import LAB_NETWORK
 from vlem.docker_client import get_docker_client
 from vlem.utils import (
@@ -117,7 +118,10 @@ def add_handler(
     except APIError as e:
         console.print(f"[red]Docker API Error: {e}[/red]")
     except Exception as e:
-        console.print(f"[red]Unexpected error: {e}[/red]")
+        console.print(
+            f"[red]Unexpected error: {e}[/red]"
+            f"\nPlease check the logs {log_file_path}"
+        )
 
 
 def list_handler() -> None:
