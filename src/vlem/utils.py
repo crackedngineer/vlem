@@ -3,13 +3,13 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 from docker import DockerClient
-from docker.models.networks import Network
+from docker.errors import APIError, ImageNotFound, NotFound
 from docker.models.containers import Container
-from docker.errors import ImageNotFound, APIError, NotFound
+from docker.models.networks import Network
 
-from vlem.helper import read_json, read_data_from_api
-from vlem.constants import LABS_URL, CONTAINER_IDENTIFIER
+from vlem.constants import CONTAINER_IDENTIFIER, LABS_URL
 from vlem.error import LabNotFoundError
+from vlem.helper import read_data_from_api, read_json
 
 
 def format_ports(ports: List[str]) -> Dict[int, int]:
@@ -22,7 +22,7 @@ def format_ports(ports: List[str]) -> Dict[int, int]:
 
 def fetch_lab_environment(name: str) -> Dict:
     if os.getenv("DEBUG", None):
-        labs: List[Dict] = read_json(Path("./data/labs.json"))
+        labs = read_json(Path("./data/labs.json"))
 
         lab = next((lab for lab in labs if lab.get("name") == name), None)
         if not lab:
@@ -39,7 +39,7 @@ def image_available(client: DockerClient, image_name: str) -> bool:
         return True
     except ImageNotFound:
         return False
-    except APIError as e:
+    except APIError:
         return False
 
 
@@ -58,7 +58,7 @@ def list_containers(client: DockerClient) -> list[Container]:
         A list of Docker container objects that have the specified label.
     """
     return client.containers.list(
-        all=True, filters={"label": f"id={CONTAINER_IDENTIFIER}"}
+        all=True, filters={"label": f"source={CONTAINER_IDENTIFIER}"}
     )
 
 
@@ -143,24 +143,25 @@ def create_container(
     Creates a Docker container with network configuration and other options.
 
     Args:
-        client: The Docker client object.
-        image_name: The name of the Docker image to use.
-        container_name: The name of the container.
-        network_name: The name of the Docker network to connect to.
-        restart_policy: The restart policy for the container (e.g., "always", "on-failure", "no").
-            Defaults to "no".
-        environment_variables: A dictionary of environment variables to set in the container.
+        client: The Docker client object used to interact with the Docker daemon.
+        image_name: The name of the Docker image to use for the container.
+        container_name: The name to assign to the created container.
+        network_name: The name of the Docker network to connect the container to.
+        restart_policy: The restart policy for the container (e.g., "always",
+            "on-failure", "no").  Defaults to "no".
+        environment_variables: A dictionary of environment variables to set in the
+            container, where keys and values are strings. Defaults to None.
+        ports: A dictionary mapping container ports (keys) to host ports (values).
             Defaults to None.
-        ports: A dictionary mapping container ports to host ports. Defaults to None.
-        volumes: A dictionary mapping host file/folder locations to container mounts.
-            Defaults to None.
+        volumes: A dictionary mapping host file/folder locations (keys) to container
+            mount points (values).  Defaults to None.
 
     Returns:
-        The created Docker container object.
+        The created Docker container object, as returned by the Docker client.
 
     Raises:
-        docker.errors.APIError: If an error occurs during container creation.
-        ValueError: If the network name is invalid.
+        APIError: If an error occurs during container creation or
+            network connection.
     """
 
     container_config = {
@@ -177,9 +178,6 @@ def create_container(
 
     try:
         container: Container = client.containers.create(**container_config)
-        print(
-            f"Container '{container_name}' created from image '{image_name}' and connected to network '{network_name}'"
-        )
         return container
     except APIError as e:
         raise APIError(f"Error creating container '{container_name}': {e}")

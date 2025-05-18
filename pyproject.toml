@@ -2,21 +2,69 @@
 name = "vlem"
 version = "0.1.0"
 description = "Vulnerable Lab Environment Manager (vLEM)"
-authors = [
-    {name = "Subhomoy Roy Choudhury",email = "subhomoyrchoudhury@gmail.com"}
-]
-license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "typer[all] (>=0.15.4,<0.16.0)",
-    "docker (>=7.1.0,<8.0.0)",
-    "rich (>=14.0.0,<15.0.0)"
+license = { text = "MIT" }
+keywords = [
+    "python",
+    "vulnerability management",
+    "lab environment",
+    "automation",
 ]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Security",
+]
+requires-python = ">=3.9,<4.0"
+dependencies = [
+    "typer[all]>=0.15.4,<0.16.0",
+    "docker>=7.1.0,<8.0.0",
+    "rich>=14.0.0,<15.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["vlem"]
 
 [project.scripts]
 vlem = "vlem.__main__:app"
 
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+flake8 = "^7.2.0"
+black = "^25.1.0"
+prettier = "^0.0.7"
+virtualenv = "^20.31.2"
+pre-commit = "^4.2.0"

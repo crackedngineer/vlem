@@ -1,21 +1,22 @@
-from typing import Optional, List
-from docker.errors import APIError
-from rich.console import Console
-from rich.table import Table
+from typing import List, Optional
 
+from docker.errors import APIError
+from docker.models.containers import Container
+from rich.console import Console
+
+from vlem.constants import LAB_NETWORK
 from vlem.docker_client import get_docker_client
 from vlem.utils import (
-    list_containers,
-    fetch_lab_environment,
-    fetch_container,
-    image_available,
-    pull_image,
     create_container,
-    fetch_network,
     create_network,
+    fetch_container,
+    fetch_lab_environment,
+    fetch_network,
     format_ports,
+    image_available,
+    list_containers,
+    pull_image,
 )
-from vlem.constants import LAB_NETWORK
 
 console = Console()
 client = get_docker_client()
@@ -26,7 +27,25 @@ def add_handler(
 ):
     """
     Handles the lifecycle of a lab container.
-    Stops and removes an existing container if found, pulls image if needed, and starts a new container.
+
+    Stops and removes an existing container if found, pulls the Docker image
+    if it's not available locally, creates a Docker network if it doesn't exist,
+    and then creates and starts a new container based on the provided
+    lab configuration.
+
+    Args:
+        lab_name (str): The name of the lab environment to deploy. This is
+            used to fetch lab details (like image name) from a configuration source.
+        name (Optional[str]): An optional custom name for the container. If not
+            provided, the name from the lab configuration will be used.
+        ports (List[str]): A list of port mappings to expose for the container,
+            in the format 'host_port:container_port'.
+        restart_policy (str, optional): The restart policy for the container
+            (e.g., 'no', 'on-failure', 'always'). Defaults to 'no'.
+
+    Raises:
+        docker.errors.APIError: If there is an error interacting with the Docker API.
+        Exception: For unexpected errors during the process.
     """
     try:
         lab_details = fetch_lab_environment(name=lab_name)
@@ -47,10 +66,11 @@ def add_handler(
                 console.log(f"[green]Removed container '{container_name}'[/green]")
             else:
                 console.log(
-                    f"[blue]No existing container found. Proceeding to create one...[/blue]"
+                    "[blue]No existing container found. "
+                    "Proceeding to create one...[/blue]"
                 )
-            
-            # Format Ports 
+
+            # Format Ports
             container_ports = format_ports(ports)
 
             # Pulling Image
@@ -88,8 +108,9 @@ def add_handler(
             console.log(
                 f"[green]Container '{container_name}' is deployed and running.[/green]"
             )
+            message = f"Lab '{lab_details['name']}' started successfully!"
             console.print(
-                f"[bold green]Lab '{lab_details["name"]}' started successfully![/bold green] "
+                f"[bold green]{message}[/bold green] "
                 f"(Container ID: {container.short_id})"
             )
 
@@ -99,34 +120,37 @@ def add_handler(
         console.print(f"[red]Unexpected error: {e}[/red]")
 
 
-def list_handler():
+def list_handler() -> None:
     """
-    Lists and displays Docker containers with a specific label in a formatted table.
+    Lists and displays Docker containers with a specific label in a horizontal format.
 
     Args:
         client: The Docker client object.
     """
-    containers = list_containers(client)
+    containers: List[Container] = list_containers(client)
 
     if not containers:
         console.print("[yellow]No lab environments found[/yellow]")
         return
 
-    table = Table(
-        title="Lab Environments", style="bold white", header_style="bold cyan"
+    console.print("[bold underline white]Lab Environments[/bold underline white]\n")
+    headers = ["Container ID", "Name", "Image", "Status"]
+    console.print(
+        f"[bold cyan]{headers[0]:<25}[/bold cyan]"
+        f"[bold cyan]{headers[1]:<25}[/bold cyan]"
+        f"[bold magenta]{headers[2]:<40}[/bold magenta]"
+        f"[bold green]{headers[3]:<10}[/bold green]"
     )
-    table.add_column("Name", style="cyan", header_style="bold cyan")
-    table.add_column("Image", style="magenta", header_style="bold magenta")
-    table.add_column("Status", style="green", header_style="bold green")
 
     for container in containers:
-        image_name = container.image.tags[0] if container.image and container.image.tags else "untagged"
-        # Use a more robust way to get status
-        status = container.status
-        table.add_row(
-            container.name,
-            image_name,
-            status,
+        image_name = (
+            container.image.tags[0]
+            if container.image and container.image.tags
+            else "untagged"
         )
-
-    console.print(table)
+        console.print(
+            f"[cyan]{container.short_id:<25}[/cyan]"
+            f"[cyan]{container.name:<25}[/cyan]"
+            f"[magenta]{image_name:<40}[/magenta]"
+            f"[green]{container.status:<10}[/green]"
+        )
