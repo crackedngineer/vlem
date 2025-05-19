@@ -3,24 +3,62 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 from docker import DockerClient
-from docker.errors import APIError, ImageNotFound, NotFound
+from docker.errors import APIError, NotFound
 from docker.models.containers import Container
 from docker.models.networks import Network
 
+from vlem.config import logger
 from vlem.constants import CONTAINER_IDENTIFIER, LABS_URL
 from vlem.error import LabNotFoundError
 from vlem.helper import read_data_from_api, read_json
 
 
 def format_ports(ports: List[str]) -> Dict[int, int]:
+    """
+    Parses and formats a list of port mappings into a dictionary.
+
+    Args:
+        ports (List[str]): A list of strings, where each string represents
+                           a port mapping in the format "host_port:container_port".
+        logger (logging.Logger): The logger object.
+
+    Returns:
+        Dict[int, int]: A dictionary where container ports as keys
+                        and host ports as value.
+                        Returns an empty dict on error and logs.
+    """
     port_bindings = {}
     for p in ports:
-        host_port, container_port = p.split(":")
-        port_bindings[container_port] = int(host_port)
+        try:
+            host_port, container_port = p.split(":")
+            port_bindings[int(container_port)] = int(host_port)
+        except ValueError:
+            logger.error(
+                f"Invalid port format: {p}."
+                "Expected 'host_port:container_port'. Skipping."
+            )
+            return {}
+
+        except Exception as e:
+            logger.error(f"Error processing port {p}: {e}")
+            return {}
     return port_bindings
 
 
 def fetch_lab_environment(name: str) -> Dict:
+    """
+    Fetches lab environment data, either from a local file or an API.
+
+    Args:
+        name (str): The name of the lab to fetch.
+        logger (logging.Logger): The logger object.
+
+    Returns:
+        Dict: The lab environment data.
+
+    Raises:
+        LabNotFoundError: If the lab is not found.
+    """
     if os.getenv("DEBUG", None):
         labs = read_json(Path("./data/labs.json"))
 
@@ -34,17 +72,53 @@ def fetch_lab_environment(name: str) -> Dict:
 
 
 def image_available(client: DockerClient, image_name: str) -> bool:
+    """
+    Checks if a Docker image is available locally.
+
+    Args:
+        client (DockerClient): The Docker client object.
+        image_name (str): The name of the Docker image.
+        logger (logging.Logger): The logger object.
+
+    Returns:
+        bool: True if the image is available, False otherwise.
+    """
     try:
         client.images.get(image_name)
+        logger.debug(f"Image '{image_name}' is available locally.")
         return True
-    except ImageNotFound:
-        return False
-    except APIError:
+    except Exception:  # Catch the specific exception Docker raises.
+        logger.info(f"Image '{image_name}' is not available locally.")
         return False
 
 
 def pull_image(client: DockerClient, image: str) -> List:
-    return client.api.pull(image, stream=True, decode=True)
+    """
+    Pulls a Docker image from a registry.
+
+    Args:
+        client (DockerClient): The Docker client object.
+        image (str): The name of the Docker image to pull.
+        logger (logging.Logger): The logger object.
+
+    Returns:
+        List: The output of the pull operation.
+            Consider whether you need the whole output.
+    """
+    logger.info(f"Pulling Docker image: {image}")
+    try:
+        output = client.api.pull(image, stream=True, decode=True)
+        for item in output:  # Log each item, but consider performance for large pulls
+            if "error" in item:
+                logger.error(f"Error pulling image {image}: {item['error']}")
+                return []  # Return empty list on error
+            elif "status" in item:
+                logger.info(f"Pull status for {image}: {item['status']}")
+        logger.info(f"Successfully pulled image: {image}")
+        return output
+    except Exception as e:
+        logger.error(f"Error pulling image {image}: {e}")
+        return []
 
 
 def list_containers(client: DockerClient) -> list[Container]:
