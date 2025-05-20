@@ -33,13 +33,14 @@ jobs:
               working-directory: ./web
               run: npm install
 
-            - name: Build web app
+            - name: Deploy to Netlify (Production)
               working-directory: ./web
-              run: npm run build
+              run: npm run deploy:prod
               env:
-                  NODE_ENV: production
                   VITE_APP_VERSION: ${{ github.sha }}
-                  VITE_APP_ENV: "production"
+                  VITE_APP_ENV: production
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
             - name: Deploy to Netlify
               uses: nwtgck/actions-netlify@v2
