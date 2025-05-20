@@ -13,7 +13,8 @@ jobs:
 
         defaults:
             run:
-                working-directory: web
+                shell: bash
+                working-directory: ./web
 
         steps:
             - name: Checkout code
