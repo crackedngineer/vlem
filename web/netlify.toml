@@ -1,0 +1,11 @@
+[build]
+functions = "netlify/functions"
+publish = "dist"
+
+[dev]
+functions = "netlify/functions"
+
+[[redirects]]
+from = "/api/labs"
+to = "/.netlify/functions/getLabs"
+status = 200
