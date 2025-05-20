@@ -1,11 +1,58 @@
 [build]
-functions = "netlify/functions"
-publish = "build"
+base = "web/"
+publish = "build/"
+command = "npm run build"
 
-[dev]
-functions = "netlify/functions"
+# Production context
+[context.production]
+environment = { NODE_ENV = "production", VITE_APP_ENV = "production" }
+
+# Deploy Preview context: all deploys resulting from a pull/merge request
+[context.deploy-preview]
+environment = { NODE_ENV = "development", VITE_APP_ENV = "preview" }
+
+# Branch Deploy context: deploys from branches other than main
+[context.branch-deploy]
+environment = { NODE_ENV = "development", VITE_APP_ENV = "branch" }
+
+# Functions directory for serverless functions
+[functions]
+directory = "functions/"
+
+# Asset optimization
+[build.processing]
+skip_processing = false
+
+[build.processing.css]
+bundle = true
+minify = true
+
+[build.processing.js]
+bundle = true
+minify = true
+
+[build.processing.html]
+pretty_urls = true
+
+[build.processing.images]
+compress = true
+
+# Redirects and headers
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
 
 [[redirects]]
 from = "/api/labs"
-to = "/.netlify/functions/getLabs"
+to = "/functions/getLabs"
 status = 200
+
+[[headers]]
+for = "/*"
+[headers.values]
+X-Frame-Options = "DENY"
+X-XSS-Protection = "1; mode=block"
+X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:;"
