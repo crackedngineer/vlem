@@ -34,8 +34,8 @@ jobs:
             - name: Install Netlify CLI
               run: npm install -g netlify-cli
 
-            - name: Build project
-              run: netlify build
+            # - name: Build project
+            #   run: netlify build
 
             - name: Deploy to Netlify
               run: netlify deploy --dir=build --prod --site=$NETLIFY_SITE_ID
