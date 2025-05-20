@@ -1,0 +1,41 @@
+name: Deploy Web to Netlify
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - "web/**"
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        defaults:
+            run:
+                working-directory: web
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build project
+              run: npm run build
+
+            - name: Install Netlify CLI
+              run: npm install -g netlify-cli
+
+            - name: Deploy to Netlify
+              run: netlify deploy --dir=build --prod --site=$NETLIFY_SITE_ID
+              env:
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

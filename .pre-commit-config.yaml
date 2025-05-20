@@ -1,3 +1,5 @@
+exclude: ^web/
+
 repos:
     - repo: https://github.com/psf/black
       rev: 25.1.0 # Use the latest version
@@ -20,13 +22,13 @@ repos:
           - id: check-docstring-first
 
     - repo: https://github.com/PyCQA/flake8
-      rev: main
+      rev: 7.2.0
       hooks:
           - id: flake8
             args: ["--max-line-length=88"] # Consistent with your pyproject.toml
             language_version: python3.11
 
     - repo: https://github.com/prettier/pre-commit
-      rev: main
+      rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
       hooks:
           - id: prettier
