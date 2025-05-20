@@ -1,6 +1,6 @@
 [build]
 base = "web/"
-publish = "build/"
+publish = "dist/"
 command = "npm run build"
 
 # Production context

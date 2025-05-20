@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => {
 
         // Build options
         build: {
-            outDir: "build",
+            outDir: "dist",
             sourcemap: mode !== "production",
             minify: mode === "production",
             // Ensure chunks aren't too large
