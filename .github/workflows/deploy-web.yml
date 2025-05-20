@@ -31,11 +31,11 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Build project
-              run: npm run build
-
             - name: Install Netlify CLI
               run: npm install -g netlify-cli
+
+            - name: Build project
+              run: netlify build
 
             - name: Deploy to Netlify
               run: netlify deploy --dir=build --prod --site=$NETLIFY_SITE_ID
