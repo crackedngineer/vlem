@@ -4,14 +4,14 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "node scripts/copy-data.js && vite",
-        "build": "node scripts/copy-data.js && tsc -b && vite build",
-        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-        "preview": "node scripts/copy-data.js && vite preview",
+        "dev": "npm run copy-data && wrangler pages dev dist --compatibility-date=2024-05-01",
+        "build": "npm run copy-data && tsc -b && vite build",
+        "copy-data": "node scripts/copy-data.js",
+        "preview": "npm run build && wrangler pages dev dist --compatibility-date=2024-05-01",
         "type-check": "tsc --noEmit",
-        "serve": "netlify dev",
-        "deploy": "node scripts/copy-data.js && npm run build && netlify deploy --message \"Manual preview $(date)\"",
-        "deploy:prod": "node scripts/copy-data.js && npm run build && netlify deploy --prod --message \"Production deployment $(date)\"",
+        "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
+        "deploy": "npm run build && wrangler pages deploy dist --project-name=<your-project-name> --branch=preview --commit-dirty=true --commit-message \"Preview $(node -p 'new Date().toISOString()')\"",
+        "deploy:prod": "npm run build && wrangler pages deploy dist --project-name=<your-project-name> --commit-dirty=true --commit-message \"Prod $(node -p 'new Date().toISOString()')\"",
         "clean": "rimraf dist node_modules/.vite"
     },
     "dependencies": {
