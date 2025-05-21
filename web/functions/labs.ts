@@ -1,8 +1,8 @@
 import labs from "../labs.json";
 
-interface Author {
-  name: string;
-}
+// interface Author {
+//   name: string;
+// }
 
 interface Config {
   [key: string]: unknown;

@@ -1,416 +1,338 @@
 [
-  {
-    "id": 1,
-    "title": "bWAPP - buggy web application",
-    "name": "bwapp",
-    "description": "Deploy the bwapp container for penetration testing. This setup includes interactive configurations for tailored security testing.",
-    "overview": "",
-    "logo": "",
-    "tags": [],
-    "author": null,
-    "image": "raesene/bwapp",
-    "difficulty": 4,
-    "created_at": "",
-    "config": {
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    {
+        "id": 1,
+        "title": "bWAPP - buggy web application",
+        "name": "bwapp",
+        "description": "Deploy the bwapp container for penetration testing. This setup includes interactive configurations for tailored security testing.",
+        "overview": "",
+        "logo": "",
+        "tags": [],
+        "author": null,
+        "image": "raesene/bwapp",
+        "difficulty": 4,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "environment_variables": {
-        "testing": true
-      }
-    }
-  },
-  {
-    "id": 2,
-    "title": "DVWA - Damn Vulnerable Web Application",
-    "name": "dvwa",
-    "description": "Deploy the DVWA container for penetration testing. This setup is a perfect environment for those new to web application security.",
-    "overview": "Damn Vulnerable Web App (DVWA) is a PHP/MySQL web application that is damn vulnerable",
-    "logo": "http://localhost:1000/home/assets/icons/dvwa.png",
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "vulnerables/web-dvwa",
-    "difficulty": 2,
-    "command": "hlb-cli add dvwa",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-dvwa",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    },
+    {
+        "id": 2,
+        "title": "DVWA - Damn Vulnerable Web Application",
+        "name": "dvwa",
+        "description": "Deploy the DVWA container for penetration testing. This setup is a perfect environment for those new to web application security.",
+        "overview": "Damn Vulnerable Web App (DVWA) is a PHP/MySQL web application that is damn vulnerable",
+        "logo": "http://localhost:1000/home/assets/icons/dvwa.png",
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "vulnerables/web-dvwa",
+        "difficulty": 2,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 3,
-    "title": "OpenDNS Security Ninjas",
-    "name": "securityninjas",
-    "description": "Deploy the Security Ninjas container for advanced penetration testing. Great for intermediates looking to expand their skills.",
-    "overview": "Security Ninjas provides a hands-on approach to understanding common security flaws.",
-    "logo": "http://localhost:1000/home/assets/icons/ninja.png",
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "opendns/security-ninjas",
-    "difficulty": 3,
-    "command": "hlb-cli add securityninjas",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-securityninjas",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    },
+    {
+        "id": 3,
+        "title": "OpenDNS Security Ninjas",
+        "name": "securityninjas",
+        "description": "Deploy the Security Ninjas container for advanced penetration testing. Great for intermediates looking to expand their skills.",
+        "overview": "Security Ninjas provides a hands-on approach to understanding common security flaws.",
+        "logo": "http://localhost:1000/home/assets/icons/ninja.png",
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "opendns/security-ninjas",
+        "difficulty": 3,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 4,
-    "title": "OWASP Juice Shop",
-    "name": "juiceshop",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web app for security training.",
-    "logo": "http://localhost:1000/home/assets/icons/juiceshop.png",
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "bkimminich/juice-shop",
-    "difficulty": 5,
-    "command": "hlb-cli add juiceshop",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-juiceshop",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 3000,
-          "type": "application"
+    },
+    {
+        "id": 4,
+        "title": "OWASP Juice Shop",
+        "name": "juiceshop",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web app for security training.",
+        "logo": "http://localhost:1000/home/assets/icons/juiceshop.png",
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "bkimminich/juice-shop",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 3000,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 5,
-    "title": "OWASP WebGoat 7.1",
-    "name": "webgoat7",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "webgoat/webgoat-7.1",
-    "difficulty": 5,
-    "command": "hlb-cli add webgoat7",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-webgoat7",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 8080,
-          "type": "application"
+    },
+    {
+        "id": 5,
+        "title": "OWASP WebGoat 7.1",
+        "name": "webgoat7",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "webgoat/webgoat-7.1",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 8080,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 6,
-    "title": "OWASP WebGoat 8.0",
-    "name": "webgoat8",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "webgoat/webgoat-8.0",
-    "difficulty": 5,
-    "command": "hlb-cli add webgoat8",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-webgoat8",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 8080,
-          "type": "application"
+    },
+    {
+        "id": 6,
+        "title": "OWASP WebGoat 8.0",
+        "name": "webgoat8",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "webgoat/webgoat-8.0",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 8080,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 7,
-    "title": "OWASP WebGoat 8.1",
-    "name": "webgoat81",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "webgoat/goatandwolf",
-    "difficulty": 5,
-    "command": "hlb-cli add webgoat81",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-webgoat81",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 8080,
-          "type": "application"
+    },
+    {
+        "id": 7,
+        "title": "OWASP WebGoat 8.1",
+        "name": "webgoat81",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "webgoat/goatandwolf",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 8080,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 8,
-    "title": "Mutillidae II",
-    "name": "mutillidae",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "citizenstig/nowasp",
-    "difficulty": 5,
-    "command": "hlb-cli add mutillidae",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-mutillidae",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    },
+    {
+        "id": 8,
+        "title": "Mutillidae II",
+        "name": "mutillidae",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "citizenstig/nowasp",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 9,
-    "title": "OWASP Security Shepard",
-    "name": "securitysheperd",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "ismisepaul/securityshepherd",
-    "difficulty": 5,
-    "command": "hlb-cli add securitysheperd",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-securitysheperd",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    },
+    {
+        "id": 9,
+        "title": "OWASP Security Shepard",
+        "name": "securitysheperd",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "ismisepaul/securityshepherd",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 10,
-    "title": "WPScan Vulnerable Wordpress",
-    "name": "vulnerablewordpress",
-    "description": "WordPress Security Scanner",
-    "overview": "",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "eystsen/vulnerablewordpress",
-    "difficulty": 5,
-    "command": "hlb-cli add vulnerablewordpress",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-vulnerablewordpress",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 3306,
-          "type": "application"
+    },
+    {
+        "id": 10,
+        "title": "WPScan Vulnerable Wordpress",
+        "name": "vulnerablewordpress",
+        "description": "WordPress Security Scanner",
+        "overview": "",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "eystsen/vulnerablewordpress",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 3306,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 11,
-    "title": "Altoro Mutual",
-    "name": "altoro",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "eystsen/altoro",
-
-    "difficulty": 5,
-    "command": "hlb-cli add altoro",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-altoro",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 8080,
-          "type": "application"
+    },
+    {
+        "id": 11,
+        "title": "Altoro Mutual",
+        "name": "altoro",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "eystsen/altoro",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 8080,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 12,
-    "title": "Vulnerable GraphQL API",
-    "name": "vulnerable-graphql-api",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "carvesystems/vulnerable-graphql-api",
-    "difficulty": 5,
-    "command": "hlb-cli add vulnerable-graphql-api",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-vulnerable-graphql-api",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 3000,
-          "type": "application"
+    },
+    {
+        "id": 12,
+        "title": "Vulnerable GraphQL API",
+        "name": "vulnerable-graphql-api",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "carvesystems/vulnerable-graphql-api",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 3000,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 13,
-    "title": "OWASP ZAP",
-    "name": "zap",
-    "description": "Deploy the OWASP Zap container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "owasp/zap2docker-stable",
-    "difficulty": 5,
-    "command": "hlb-cli add zap",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-zap",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 3000,
-          "type": "application"
+    },
+    {
+        "id": 13,
+        "title": "OWASP ZAP",
+        "name": "zap",
+        "description": "Deploy the OWASP Zap container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "owasp/zap2docker-stable",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 3000,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 14,
-    "title": "Vulnerability as a service: Shellshock",
-    "name": "shellshock",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "hmlio/vaas-cve-2014-6271",
-    "difficulty": 5,
-    "command": "hlb-cli add shellshock",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-shellshock",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    },
+    {
+        "id": 14,
+        "title": "Vulnerability as a service: Shellshock",
+        "name": "shellshock",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "hmlio/vaas-cve-2014-6271",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 15,
-    "title": "Vulnerability as a service: Heartbleed",
-    "name": "heartbleed",
-    "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
-    "overview": "",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "hmlio/vaas-cve-2014-0160",
-    "difficulty": 5,
-    "command": "hlb-cli add heartbleed",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-heartbleed",
-      "default_platform": "linux/amd64",
-      "ports": [
-        {
-          "internal": 443,
-          "type": "application"
+    },
+    {
+        "id": 15,
+        "title": "Vulnerability as a service: Heartbleed",
+        "name": "heartbleed",
+        "description": "Deploy the OWASP Juice Shop container for expert-level penetration testing. Challenges are designed for experienced professionals.",
+        "overview": "",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "hmlio/vaas-cve-2014-0160",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 443,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
-    }
-  },
-  {
-    "id": 16,
-    "title": "Hackazon",
-    "name": "hackazon",
-    "description": "Watermarked Hackazon",
-    "overview": "",
-    "logo": null,
-    "tags": ["penetration testing"],
-    "author": null,
-    "image": "ianwijaya/hackazon",
-    "difficulty": 5,
-    "command": "hlb add hackazon",
-    "created_at": "",
-    "default": {
-      "container_name": "hlb-heartbleed",
-      "ports": [
-        {
-          "internal": 80,
-          "type": "application"
+    },
+    {
+        "id": 16,
+        "title": "Hackazon",
+        "name": "hackazon",
+        "description": "Watermarked Hackazon",
+        "overview": "",
+        "logo": null,
+        "tags": ["penetration testing"],
+        "author": null,
+        "image": "ianwijaya/hackazon",
+        "difficulty": 5,
+        "created_at": "",
+        "config": {
+            "ports": [
+                {
+                    "internal": 80,
+                    "type": "application"
+                }
+            ]
         }
-      ],
-      "network": "hlb-network",
-      "restart_policy": "unless-stopped"
     }
-  }
 ]
