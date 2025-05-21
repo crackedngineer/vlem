@@ -47,7 +47,8 @@ jobs:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   projectName: vlem
-                  directory: ./web
+                  directory: ./web/dist
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-                  branch: main # Specify the branch for production deployment
+                  branch: main
+                  workingDirectory: ./web
               timeout-minutes: 2

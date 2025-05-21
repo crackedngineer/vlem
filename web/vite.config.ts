@@ -21,20 +21,6 @@ export default defineConfig(({ mode }) => {
             },
         },
 
-        // Development server configuration
-        server: {
-            port: 3000,
-            open: true,
-            proxy: {
-                // Proxy API requests to Netlify dev server during development
-                "/.netlify/functions": {
-                    target: "http://localhost:8888",
-                    changeOrigin: true,
-                    rewrite: (path) => path,
-                },
-            },
-        },
-
         // Build options
         build: {
             outDir: "dist",
