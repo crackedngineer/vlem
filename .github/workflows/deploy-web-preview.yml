@@ -46,6 +46,6 @@ jobs:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   projectName: vlem
-                  directory: ./web/dist
+                  directory: ./web
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
               timeout-minutes: 2
