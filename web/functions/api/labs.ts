@@ -1,4 +1,4 @@
-import labs from "../labs.json";
+import labs from "../../labs.json";
 
 // interface Author {
 //   name: string;

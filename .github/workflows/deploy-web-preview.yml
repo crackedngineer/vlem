@@ -40,19 +40,12 @@ jobs:
                   VITE_APP_ENV: "preview"
                   VITE_PR_NUMBER: ${{ github.event.pull_request.number }}
 
-            - name: Deploy to Netlify
-              uses: nwtgck/actions-netlify@v2
+            - name: Deploy to Cloudflare Pages
+              uses: cloudflare/pages-action@v1
               with:
-                  publish-dir: "./web/dist"
-                  production-deploy: false
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  deploy-message: "Preview deployment for PR #${{ github.event.pull_request.number }}"
-                  alias: "pr-${{ github.event.pull_request.number }}"
-                  enable-pull-request-comment: true
-                  enable-commit-comment: true
-                  enable-commit-status: true
-                  overwrites-pull-request-comment: true
-              env:
-                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  projectName: vlem
+                  directory: ./web/dist
+                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
               timeout-minutes: 2

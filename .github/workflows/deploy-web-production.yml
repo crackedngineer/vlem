@@ -12,7 +12,7 @@ on:
 jobs:
     deploy-production:
         runs-on: ubuntu-latest
-        name: Deploy to Netlify (Production)
+        name: Deploy to Cloudflare Pages (Production)
         env:
             NODE_VERSION: 22
 
@@ -33,25 +33,21 @@ jobs:
               working-directory: ./web
               run: npm install
 
-            - name: Deploy to Netlify (Production)
+            - name: Build web app
               working-directory: ./web
-              run: npm run deploy:prod
+              run: npm run build
               env:
+                  NODE_ENV: production
                   VITE_APP_VERSION: ${{ github.sha }}
                   VITE_APP_ENV: production
-                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-            - name: Deploy to Netlify
-              uses: nwtgck/actions-netlify@v2
+            - name: Deploy to Cloudflare Pages
+              uses: cloudflare/pages-action@v1
               with:
-                  publish-dir: "./web/dist"
-                  production-deploy: true
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  deploy-message: "Production deployment from ${{ github.event_name == 'workflow_dispatch' && 'manual trigger' || 'main branch push' }}"
-                  enable-commit-comment: true
-                  enable-commit-status: true
-              env:
-                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  projectName: vlem
+                  directory: ./web/dist
+                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+                  branch: main # Specify the branch for production deployment
               timeout-minutes: 2
